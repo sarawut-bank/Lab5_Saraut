@@ -21,10 +21,13 @@ class FormScreen extends StatelessWidget {
                 ),
                 TextFormField(
                   decoration: new InputDecoration(labelText: "จำนวนเงิน"),
+                  keyboardType: TextInputType.number,
                 ),
                 ElevatedButton(
                   child: Text("เพิ่มข้อมูล"),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
               ],
             ),
