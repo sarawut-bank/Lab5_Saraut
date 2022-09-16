@@ -7,6 +7,9 @@ class FormScreen extends StatelessWidget {
 
   final formkey = GlobalKey<FormState>();
 
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +24,7 @@ class FormScreen extends StatelessWidget {
                 TextFormField(
                   decoration: new InputDecoration(labelText: "ชื่อรายการ"),
                   autofocus: true,
+                  controller: titleController,
                   validator: (String? str) {
                     if (str!.isEmpty) {
                       return "กรุณาป้อนชื่อรายการ!";
@@ -31,6 +35,7 @@ class FormScreen extends StatelessWidget {
                 TextFormField(
                   decoration: new InputDecoration(labelText: "จำนวนเงิน"),
                   keyboardType: TextInputType.number,
+                  controller: amountController,
                   validator: (String? str) {
                     if (str!.isEmpty) {
                       return "กรุณาป้อนชื่อจำนวนเงิน!";
@@ -45,6 +50,11 @@ class FormScreen extends StatelessWidget {
                   child: Text("เพิ่มข้อมูล"),
                   onPressed: () {
                     if (formkey.currentState!.validate()) {
+                      var title = titleController.text;
+                      var amount = amountController.text;
+
+                      print(title);
+                      print(amount);
                       Navigator.pop(context);
                     }
                   },
