@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:lab5/models/tranasaction.dart';
+import 'package:lab5/provider/transaction_provider.dart';
+import 'package:provider/provider.dart';
 
 class FormScreen extends StatelessWidget {
   FormScreen({super.key});
@@ -53,8 +56,15 @@ class FormScreen extends StatelessWidget {
                       var title = titleController.text;
                       var amount = amountController.text;
 
-                      print(title);
-                      print(amount);
+                      Transaction statement = Transaction(
+                          title: title,
+                          amount: double.parse(amount),
+                          date: DateTime.now());
+
+                      var provider = Provider.of<TransactionProvider>(context,
+                          listen: false);
+                      provider.addTransaction(statement);
+
                       Navigator.pop(context);
                     }
                   },
