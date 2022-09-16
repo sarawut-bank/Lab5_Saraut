@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lab5/models/tranasaction.dart';
+import 'package:lab5/provider/transaction_provider.dart';
 import 'package:lab5/screens/form_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,12 +13,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) {
+          return TransactionProvider();
+        })
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyHomePage(title: 'แอพบัญชี'),
       ),
-      home: const MyHomePage(title: 'แอพบัญชี'),
     );
   }
 }
@@ -33,36 +43,41 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return FormScreen();
-              }));
-            },
-          )
-        ],
-      ),
-      body: ListView.builder(
-          itemCount: 4,
-          itemBuilder: (context, int index) {
-            return Card(
-              elevation: 3,
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: ListTile(
-                leading: CircleAvatar(
-                    radius: 30,
-                    child: FittedBox(
-                      child: Text("500"),
-                    )),
-                title: Text("รายการ"),
-                subtitle: Text("วดป"),
-              ),
-            );
-          }),
-    );
+        appBar: AppBar(
+          title: Text(widget.title),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return FormScreen();
+                }));
+              },
+            )
+          ],
+        ),
+        body: Consumer(
+          builder: (context, TransactionProvider provider, child) {
+            return ListView.builder(
+                itemCount: provider.transactions.length,
+                itemBuilder: (context, int index) {
+                  Transaction data = provider.transactions[index];
+                  return Card(
+                    elevation: 3,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                          radius: 30,
+                          child: FittedBox(
+                            child: Text("500"),
+                          )),
+                      title: Text("รายการ"),
+                      subtitle: Text("วดป"),
+                    ),
+                  );
+                });
+          },
+        ));
   }
 }
