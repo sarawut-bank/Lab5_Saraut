@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lab5/models/tranasaction.dart';
 import 'package:lab5/provider/transaction_provider.dart';
 import 'package:lab5/screens/form_screen.dart';
@@ -83,7 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: Text(data.amount.toString()),
                             )),
                         title: Text(data.title.toString()),
-                        subtitle: Text(data.date.toString()),
+                        subtitle: Text(DateFormat("dd/MM/yyyy")
+                            .format(data.date as DateTime)),
                       ),
                     );
                   });
