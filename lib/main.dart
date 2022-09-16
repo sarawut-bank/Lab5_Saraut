@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
         })
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -58,25 +59,35 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: Consumer(
           builder: (context, TransactionProvider provider, child) {
-            return ListView.builder(
-                itemCount: provider.transactions.length,
-                itemBuilder: (context, int index) {
-                  Transaction data = provider.transactions[index];
-                  return Card(
-                    elevation: 3,
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                          radius: 30,
-                          child: FittedBox(
-                            child: Text(data.amount.toString()),
-                          )),
-                      title: Text(data.title.toString()),
-                      subtitle: Text(data.date.toString()),
-                    ),
-                  );
-                });
+            var count = provider.transactions.length;
+            if (count <= 0) {
+              return Center(
+                child: Text(
+                  "ไม่พบข้อมูล",
+                  style: TextStyle(fontSize: 20),
+                ),
+              );
+            } else {
+              return ListView.builder(
+                  itemCount: count,
+                  itemBuilder: (context, int index) {
+                    Transaction data = provider.transactions[index];
+                    return Card(
+                      elevation: 3,
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                            radius: 30,
+                            child: FittedBox(
+                              child: Text(data.amount.toString()),
+                            )),
+                        title: Text(data.title.toString()),
+                        subtitle: Text(data.date.toString()),
+                      ),
+                    );
+                  });
+            }
           },
         ));
   }
